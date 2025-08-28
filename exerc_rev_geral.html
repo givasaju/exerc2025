@@ -1,0 +1,768 @@
+/* /index.html 200
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instituto Fedreal de Sergipe - Campus Estância</title>
+    <title>Projetos e Práticas de Instalações Elétricas - 2025.1</title>
+    <title>Professor Givaldo Almeida</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #81C784);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .units-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .unit-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .unit-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        }
+
+        .unit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #FF6B6B, #4ECDC4);
+        }
+        
+        .unit-card.unit-completed::before {
+            background: linear-gradient(90deg, #4CAF50, #81C784);
+        }
+
+        .unit-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .unit-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-right: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .unit-title {
+            flex: 1;
+        }
+
+        .unit-title h3 {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .unit-title .unit-number {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .exercises-count {
+            background: linear-gradient(135deg, #4CAF50, #81C784);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .unit-exercises {
+            margin-top: 20px;
+            animation: slideDown 0.5s ease-in-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .exercise {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4ECDC4;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .exercise:hover {
+            background: #e8f5e8;
+            transform: translateX(5px);
+        }
+
+        .exercise-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .exercise-number {
+            background: linear-gradient(135deg, #4ECDC4, #44A08D);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 12px;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .exercise-text {
+            flex: 1;
+            line-height: 1.6;
+            color: #2c3e50;
+        }
+
+        .exercise-status {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .exercise-status.completed {
+            background: #4CAF50;
+            border-color: #4CAF50;
+        }
+
+        .exercise-status.completed::after {
+            content: '✓';
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .stats-panel {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-item {
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            opacity: 0.8;
+        }
+
+        .floating-action {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #FF6B6B, #E74C3C);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .floating-action:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(231, 76, 60, 0.5);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            animation: slideDown 0.3s;
+        }
+
+        .modal h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .modal p {
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4ECDC4, #44A08D);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .units-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .unit-card {
+                padding: 20px;
+            }
+            
+            .floating-action {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+
+        .search-container {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 15px 25px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .search-input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .search-icon {
+            color: rgba(255,255,255,0.7);
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="logo_ifs.png" alt="Instituto Federal Sergipe" style="height: 80px; margin-bottom: 20px;">
+            <h1>⚡ Exercícios para Revisão Geral</h1>
+            <p>Projetos e Práticas de Instalações Elétricas - 2025.1</p>
+            <p>Professor Givaldo Almeida</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" placeholder="Buscar exercícios por tema ou conteúdo..." id="searchInput">
+        </div>
+
+        <div class="units-grid" id="unitsGrid">
+            <!-- Cards will be dynamically inserted here -->
+        </div>
+
+        <div class="stats-panel">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalExercises">0</div>
+                    <div class="stat-label">Total de Exercícios</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="completedExercises">0</div>
+                    <div class="stat-label">Concluídos</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="progressPercent">0%</div>
+                    <div class="stat-label">Progresso</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="unitsCompleted">0/0</div>
+                    <div class="stat-label">Unidades Concluídas</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="floating-action" title="Resetar Progresso">🔄</button>
+
+    <div class="modal" id="resetModal">
+        <div class="modal-content">
+            <h3>Redefinir Progresso</h3>
+            <p>Você tem certeza de que deseja apagar todo o seu progresso? Esta ação não pode ser desfeita.</p>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" id="cancelReset">Cancelar</button>
+                <button class="btn btn-primary" id="confirmReset">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const unitsGrid = document.getElementById('unitsGrid');
+            const progressFill = document.getElementById('progressFill');
+            const totalExercisesEl = document.getElementById('totalExercises');
+            const completedExercisesEl = document.getElementById('completedExercises');
+            const progressPercentEl = document.getElementById('progressPercent');
+            const unitsCompletedEl = document.getElementById('unitsCompleted');
+            const searchInput = document.getElementById('searchInput');
+            const floatingActionButton = document.querySelector('.floating-action');
+            const resetModal = document.getElementById('resetModal');
+            const cancelReset = document.getElementById('cancelReset');
+            const confirmReset = document.getElementById('confirmReset');
+
+            let exercisesData = [];
+            let completedExercises = new Set();
+
+            function loadCompletedState() {
+                const saved = localStorage.getItem('completedExercises');
+                if (saved) {
+                    try {
+                        const parsed = JSON.parse(saved);
+                        if (Array.isArray(parsed)) {
+                            completedExercises = new Set(parsed);
+                        }
+                    } catch (e) {
+                        console.error("Could not parse completed exercises from localStorage", e);
+                        completedExercises = new Set();
+                    }
+                }
+            }
+
+            function saveCompletedState() {
+                localStorage.setItem('completedExercises', JSON.stringify(Array.from(completedExercises)));
+            }
+
+            const markdownContent = `
+# Instituto Federal de Sergipe- Campus Estância
+
+***
+# Projetos e Práticas de Instalações Elétricas - 2025.1
+
+# Professor Givaldo Almeida
+
+
+## **Unidade 1: Conceitos Básicos de Eletricidade**
+
+**1.1** Explique, com suas palavras, o conceito de corrente elétrica e tensão elétrica.
+**1.2** Dê um exemplo prático do cotidiano em que percebemos os efeitos da eletricidade, sem vermos a corrente elétrica.
+
+***
+
+## **Unidade 2: Potência Elétrica, Ativa, Reativa e Fator de Potência**
+
+**2.1** Calcule a potência ativa de um equipamento de 127V com corrente de 10A e fator de potência 0,8.
+**2.2** Descreva o que é potência reativa e cite dois exemplos de equipamentos que exigem esse tipo de potência.
+**2.3** Um circuito apresenta potência aparente de 1000 VA e o fator de potência é 0,9. Calcule a potência ativa.
+
+***
+
+## **Unidade 3: Levantamento das Cargas e Potência Instalada**
+
+**3.1** Com base em uma planta hipotética de uma residência com três cômodos e um banheiro, faça o levantamento da carga de iluminação considerando as normas NBR 5410 (mínimo de 100VA para cada 6 m²).
+**3.2** Quantos pontos de tomada devem ser previstos numa cozinha com 11 m² de área e 13 metros de perímetro?
+**3.3** Considerando que o banheiro terá 4 m², qual a potência mínima deve ser considerada para tomada de uso geral neste ambiente?
+
+***
+
+## **Unidade 4: Padrão de Entrada e Quadro de Distribuição**
+
+**4.1** Explique (com desenho ou esquema) o que compõe um padrão de entrada de energia residencial.
+**4.2** Relacione todos os componentes obrigatórios de um quadro de distribuição residencial conforme a NBR 5410.
+**4.3** Justifique a importância de posicionar o quadro de distribuição próximo ao medidor.
+
+***
+
+## **Unidade 5: Disjuntores, DR e Proteção**
+
+**5.1** Diferencie um disjuntor termomagnético de um DR (Diferencial Residual).
+**5.2** Cite uma situação onde o disjuntor DR é obrigatório segundo as normas.
+**5.3** Por que não se deve substituir um disjuntor ou fusível queimado por outro de maior amperagem sem trocar os fios?
+
+***
+
+## **Unidade 6: Simbologia Elétrica**
+
+**6.1** Faça um quadro com os símbolos de: ponto de luz, tomada baixa, tomada média, interruptor simples, disjuntor, condutor fase, condutor neutro e condutor terra.
+**6.2** Interprete um trecho de planta baixa e identifique todos os símbolos presentes, indicando quantos e quais acessórios elétricos estão representados.
+
+***
+
+## **Unidade 7: Condutores Elétricos e Aterramento**
+
+**7.1** Explique a diferença entre fio e cabo elétrico.
+**7.2** Por que é obrigatório, segundo a norma, o uso de condutor terra em todas as tomadas?
+**7.3** Faça uma simulação de dimensionamento de um condutor de proteção para um circuito com condutor fase de 4mm².
+
+***
+
+## **Unidade 8: Caminhamento de Eletrodutos e Representação**
+
+**8.1** Desenhe o caminho dos eletrodutos em dois ambientes interligados, posicionando quadro de distribuição, pontos de luz e tomadas.
+**8.2** Quantos condutores podem passar em um eletroduto de 20mm com condutores de seção 2,5mm², de acordo com a tabela mostrada na apostila?
+**8.3** Faça o cálculo da quantidade de metros de eletroduto em um trecho de 3,5cm na planta desenhada na escala 1:100.
+
+***
+
+## **Unidade 9: Esquemas de Ligação**
+
+**9.1** Monte um esquema de ligação de uma lâmpada controlada por dois interruptores paralelos (Three-way).
+**9.2** Explique as ligações de uma tomada de uso específico (PTUE) de um chuveiro de 5.600W em 220V.
+
+***
+
+## **Unidade 10: Levantamento de Materiais**
+
+**10.1** Liste e quantifique todos os materiais necessários para instalar dois pontos de luz e três tomadas em uma sala, incluindo eletrodutos, caixas, acessórios e cabos.
+**10.2** Faça a tabela completa como no modelo da apostila, diferenciado por cômodo.
+
+***
+`;
+            try {
+                exercisesData = parseMarkdown(markdownContent);
+                loadCompletedState();
+                renderCards(exercisesData);
+                updateStats();
+            } catch (error) {
+                console.error('Error parsing markdown:', error);
+                unitsGrid.innerHTML = `<p style="color: white; text-align: center;">Ocorreu um erro ao processar os exercícios.</p>`;
+            }
+
+            function parseMarkdown(text) {
+                const units = [];
+                const lines = text.split(/\r?\n/);
+                let currentUnit = null;
+
+                lines.forEach(line => {
+                                        const unitMatch = line.match(/## \*\*Unidade (\d+): (.*)\*\*/);
+                    if (unitMatch) {
+                        if (currentUnit) {
+                            units.push(currentUnit);
+                        }
+                        currentUnit = {
+                            id: parseInt(unitMatch[1]),
+                            title: unitMatch[2].trim(),
+                            questions: []
+                        };
+                    }
+
+                    const questionMatch = line.match(/^\*\*(\d+\.\d+)\*\* (.*)/);
+                    if (questionMatch && currentUnit) {
+                        currentUnit.questions.push({
+                            id: questionMatch[1],
+                            text: questionMatch[2].trim()
+                        });
+                    }
+                });
+                if (currentUnit) {
+                    units.push(currentUnit);
+                }
+                return units;
+            }
+
+            function renderCards(unitsToRender) {
+                unitsGrid.innerHTML = '';
+                unitsToRender.forEach(unit => {
+                    const card = document.createElement('div');
+                    card.className = 'unit-card';
+                    card.dataset.unitId = unit.id;
+
+                    const unitIsCompleted = unit.questions.every(q => completedExercises.has(q.id));
+                    if (unitIsCompleted) {
+                        card.classList.add('unit-completed');
+                    }
+
+                    card.innerHTML = `
+                        <div class="unit-header">
+                            <div class="unit-icon">⚡</div>
+                            <div class="unit-title">
+                                <h3>${unit.title}</h3>
+                                <div class="unit-number">Exercício ${unit.id}</div>
+                            </div>
+                            <div class="exercises-count">${unit.questions.length} exercícios</div>
+                        </div>
+                        <div class="unit-exercises" style="display: none;">
+                            ${unit.questions.map(q => `
+                                <div class="exercise" data-question-id="${q.id}">
+                                    <div class="exercise-header">
+                                        <div class="exercise-number">${q.id}</div>
+                                        <div class="exercise-text">${q.text}</div>
+                                    </div>
+                                    <div class="exercise-status ${completedExercises.has(q.id) ? 'completed' : ''}"></div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    unitsGrid.appendChild(card);
+                });
+
+                addEventListeners();
+            }
+
+            function addEventListeners() {
+                document.querySelectorAll('.unit-card').forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        const exerciseStatus = e.target.closest('.exercise-status');
+                        if (exerciseStatus) {
+                            e.stopPropagation();
+                            const questionId = exerciseStatus.closest('.exercise').dataset.questionId;
+                            toggleExercise(questionId, exerciseStatus);
+                            return;
+                        }
+
+                        const exercisesContainer = card.querySelector('.unit-exercises');
+                        const isVisible = exercisesContainer.style.display === 'block';
+                        
+                        document.querySelectorAll('.unit-exercises').forEach(el => {
+                            if (el !== exercisesContainer) el.style.display = 'none';
+                        });
+
+                        exercisesContainer.style.display = isVisible ? 'none' : 'block';
+                    });
+                });
+            }
+            
+            searchInput.addEventListener('input', () => {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                
+                if (!searchTerm) {
+                    renderCards(exercisesData);
+                    return;
+                }
+
+                const filteredUnits = exercisesData.map(unit => {
+                    const filteredQuestions = unit.questions.filter(q => 
+                        q.text.toLowerCase().includes(searchTerm)
+                    );
+
+                    if (unit.title.toLowerCase().includes(searchTerm) || filteredQuestions.length > 0) {
+                        return { ...unit, questions: filteredQuestions.length > 0 ? filteredQuestions : unit.questions };
+                    }
+                    return null;
+                }).filter(Boolean);
+
+                renderCards(filteredUnits);
+            });
+
+            function toggleExercise(questionId, element) {
+                if (completedExercises.has(questionId)) {
+                    completedExercises.delete(questionId);
+                } else {
+                    completedExercises.add(questionId);
+                }
+                element.classList.toggle('completed');
+                saveCompletedState();
+                updateStats();
+                
+                const unitCard = element.closest('.unit-card');
+                const unitId = unitCard.dataset.unitId;
+                const unit = exercisesData.find(u => u.id == unitId);
+                const unitIsCompleted = unit.questions.every(q => completedExercises.has(q.id));
+                
+                if (unitIsCompleted) {
+                    unitCard.classList.add('unit-completed');
+                } else {
+                    unitCard.classList.remove('unit-completed');
+                }
+            }
+
+            function updateStats() {
+                const totalExercises = exercisesData.reduce((acc, unit) => acc + unit.questions.length, 0);
+                const completedCount = completedExercises.size;
+                const progress = totalExercises > 0 ? (completedCount / totalExercises) * 100 : 0;
+
+                progressFill.style.width = `${progress}%`;
+                totalExercisesEl.textContent = totalExercises;
+                completedExercisesEl.textContent = completedCount;
+                progressPercentEl.textContent = `${Math.round(progress)}%`;
+
+                const completedUnits = exercisesData.filter(unit =>
+                    unit.questions.every(q => completedExercises.has(q.id))
+                ).length;
+                unitsCompletedEl.textContent = `${completedUnits}/${exercisesData.length}`;
+            }
+
+            floatingActionButton.addEventListener('click', () => {
+                resetModal.style.display = 'flex';
+            });
+
+            cancelReset.addEventListener('click', () => {
+                resetModal.style.display = 'none';
+            });
+
+            confirmReset.addEventListener('click', () => {
+                completedExercises.clear();
+                saveCompletedState();
+                renderCards(exercisesData);
+                updateStats();
+                resetModal.style.display = 'none';
+            });
+
+            window.addEventListener('click', (event) => {
+                if (event.target == resetModal) {
+                    resetModal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

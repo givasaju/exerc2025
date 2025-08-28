@@ -1,0 +1,4 @@
+name: exerc_rev_geral
+version: 1.0.0
+description: A general review exercise project.
+entry_point: exerc_rev_geral.html
